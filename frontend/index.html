@@ -12,22 +12,57 @@
 </div>
 
 <script>
-function login() {
-  fetch("/login", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      usuario: usuario.value,
-      senha: senha.value
-    })
+// function login() {
+//   fetch("/login", {
+//     method: "POST",
+//     headers: {"Content-Type": "application/json"},
+//     body: JSON.stringify({
+//       usuario: usuario.value,
+//       senha: senha.value
+//     })
+//   })
+//   .then(r => r.json())
+//   .then(data => {
+//     if(data.tipo === "triagem") location.href = "/triagem.html";
+//     if(data.tipo === "medico") location.href = "/medico.html";
+//     if(data.tipo === "atendimento") location.href = "/atendimento.html";
+//   });
+// }
+  function login() {
+  // Desabilita o botão aqui se quiser evitar múltiplos cliques
+  
+  fetch("/login", { 
+    method: "POST", 
+    headers: { "Content-Type": "application/json" }, 
+    body: JSON.stringify({ 
+      usuario: usuario.value, 
+      senha: senha.value 
+    }) 
   })
-  .then(r => r.json())
+  .then(r => {
+    if (!r.ok) {
+      throw new Error("Erro na resposta do servidor");
+    }
+    return r.json();
+  })
   .then(data => {
-    if(data.tipo === "triagem") location.href = "/triagem.html";
-    if(data.tipo === "medico") location.href = "/medico.html";
-    if(data.tipo === "atendimento") location.href = "/atendimento.html";
+    // Verifica se o servidor retornou um tipo válido antes de redirecionar
+    if (data.tipo === "triagem") {
+      location.href = "/triagem"; // Removeu o .html
+    } else if (data.tipo === "medico") {
+      location.href = "/medico";
+    } else if (data.tipo === "atendimento") {
+      location.href = "/atendimento";
+    } else {
+      alert("Usuário ou senha incorretos!");
+    }
+  })
+  .catch(error => {
+    console.error("Erro ao tentar fazer login:", error);
+    alert("Não foi possível conectar ao servidor. Tente novamente mais tarde.");
   });
 }
+
 </script>
 </body>
 </html>
