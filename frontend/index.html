@@ -23,9 +23,9 @@ function login() {
  })
    .then(r => r.json())
    .then(data => {
-    if(data.tipo === "triagem") location.href = "/triagem.html";
-    if(data.tipo === "medico") location.href = "/medico.html";
-     if(data.tipo === "atendimento") location.href = "/atendimento.html";
+    if(data.tipo === "triagem") location.href = "triagem.html";
+    if(data.tipo === "medico") location.href = "medico.html";
+    if(data.tipo === "atendimento") location.href = "atendimento.html";
    });
  }
 </script>
