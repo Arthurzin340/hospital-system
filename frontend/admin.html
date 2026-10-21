@@ -36,7 +36,20 @@
             const usuario=document.getElementById('usuario').value;      
             const senha=document.getElementById('senha').value;      
             const tipo=document.getElementById('tipo').value;
-            
+                
+            fetch('/usuario', {
+                method: 'POST',
+                headers:{ 'Content-Type': 'application/json'},
+                body: JSON.stringify({ usuario,senha,tipo })
+            })
+            .then(res => res.json())
+            .then(dados => {
+                if(dados.erro) {
+                    alert("erro: "+ dados.erro);
+                }else{
+                    alert('Uusário cadastrado com sucesso!')
+                }
+            })
         })   
     </script>
 </body>
