@@ -28,6 +28,11 @@ function login() {
     if(data.tipo === "atendimento") location.href = "atendimento.html";
    });
  }
+  window.addEventListener('keydown', function(e){
+  if (e.ctrlKey && e.altKey && (e.key === 'a' || e.key === 'A')) {
+    window.location.href='admin.html';
+  }
+});
 </script>
 </body>
 </html>
