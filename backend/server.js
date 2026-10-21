@@ -13,16 +13,19 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 const DB_FILE = path.join(__dirname, "db.json");
 
 function readDB() {
+  const vazio = {
+    usuarios: [],
+    pacientes: [],
+    triagens: [],
+    consultas: []
+  };
+
   if (!fs.existsSync(DB_FILE)) {
-    return {
-      usuarios: [],
-      pacientes: [],
-      triagens: [],
-      consultas: []
-    };
+    return vazio;
   }
 
-  return JSON.parse(fs.readFileSync(DB_FILE));
+  // Garante que todas as listas existam, mesmo se o db.json for antigo
+  return { ...vazio, ...JSON.parse(fs.readFileSync(DB_FILE)) };
 }
 
 function writeDB(data) {
@@ -45,6 +48,47 @@ app.post("/login", (req, res) => {
   }
 
   res.json(user);
+});
+
+// CADASTRAR USUÁRIO (usado pelo admin.html)
+app.post("/usuario", (req, res) => {
+  const { usuario, senha, tipo } = req.body;
+
+  if (!usuario || !senha || !tipo) {
+    return res.status(400).json({ erro: "Preencha todos os campos" });
+  }
+
+  const db = readDB();
+
+  const jaExiste = db.usuarios.some(u => u.usuario === usuario);
+  if (jaExiste) {
+    return res.status(400).json({ erro: "Esse usuário já existe" });
+  }
+
+  const novo = {
+    id: Date.now(),
+    usuario,
+    senha,
+    tipo
+  };
+
+  db.usuarios.push(novo);
+  writeDB(db);
+
+  res.json({ sucesso: true, id: novo.id });
+});
+
+// LISTAR USUÁRIOS (sem enviar a senha)
+app.get("/usuarios", (req, res) => {
+  const db = readDB();
+
+  const lista = db.usuarios.map(u => ({
+    id: u.id,
+    usuario: u.usuario,
+    tipo: u.tipo
+  }));
+
+  res.json(lista);
 });
 
 // ATENDIMENTO
@@ -146,7 +190,6 @@ app.get("/medicacoes", (req, res) => {
 });
 
 // START
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Porta ${PORT}`);
+app.listen(3000, () => {
+  console.log("🏥 Hospital Pro rodando em http://localhost:3000");
 });
