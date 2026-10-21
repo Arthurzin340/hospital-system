@@ -47,10 +47,30 @@
                 if(dados.erro) {
                     alert("erro: "+ dados.erro);
                 }else{
-                    alert('Uusário cadastrado com sucesso!')
+                    alert('Uusário cadastrado com sucesso!');
+                    document.getElementById('formUsuario').reset();
+                    carregarUsuarios();
                 }
-            })
-        })   
+            });
+        });
+
+        function carregarUsuarios() {
+            fetch('/usuarios')
+            .then(res => res.json())
+            .then(usuarios => {
+                const div=document.getElementById('listaUsuarios');
+                div.innerHTML="";
+                usuarios.forEach(u => {
+                    div.innerHTML +=`
+                    <div class="card">
+                        <b>Usuário: </b> ${u.usuario} |
+                        <b>Setor: </b> ${u.tipo}
+                        </div>
+                        `;
+                });
+            });
+        }
+        carregarUsuarios(); 
     </script>
 </body>
 </html>
