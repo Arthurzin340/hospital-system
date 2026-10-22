@@ -17,7 +17,8 @@ function readDB() {
     usuarios: [],
     pacientes: [],
     triagens: [],
-    consultas: []
+    consultas: [],
+    chamadas: []
   };
 
   if (!fs.existsSync(DB_FILE)) {
@@ -91,7 +92,7 @@ app.get("/usuarios", (req, res) => {
   res.json(lista);
 });
 
-// ATENDIMENTO
+// ATENDIMENTO (cria o paciente e já chama na TV)
 app.post("/atendimento", (req, res) => {
   const db = readDB();
 
@@ -105,6 +106,16 @@ app.post("/atendimento", (req, res) => {
   };
 
   db.pacientes.push(paciente);
+
+  // registra a chamada para a TV
+  db.chamadas.push({
+    id: paciente.id,
+    paciente: paciente.nome,
+    localTipo: req.body.localTipo || "GUICHÊ",
+    localNumero: req.body.localNumero || "1",
+    createdAt: new Date()
+  });
+
   writeDB(db);
 
   res.json(paciente);
@@ -148,7 +159,7 @@ app.get("/triagens", (req, res) => {
   res.json(db.triagens);
 });
 
-// IMPLEMENTADO: rota com lista fixa de medicações
+// LISTA FIXA DE MEDICAÇÕES
 app.get("/lista-medicacoes", (req, res) => {
   res.json([
     "Dipirona",
@@ -187,6 +198,41 @@ app.post("/consulta", (req, res) => {
 app.get("/medicacoes", (req, res) => {
   const db = readDB();
   res.json(db.consultas);
+});
+
+// CHAMAR PACIENTE (qualquer tela pode chamar esta rota)
+app.post("/chamar", (req, res) => {
+  const { paciente, localTipo, localNumero } = req.body;
+
+  if (!paciente) {
+    return res.status(400).json({ erro: "Informe o paciente" });
+  }
+
+  const db = readDB();
+
+  const chamada = {
+    id: Date.now(),
+    paciente,
+    localTipo: localTipo || "GUICHÊ",
+    localNumero: localNumero || "--",
+    createdAt: new Date()
+  };
+
+  db.chamadas.push(chamada);
+  writeDB(db);
+
+  res.json(chamada);
+});
+
+// TV: última chamada + histórico (mais recentes primeiro)
+app.get("/tv/chamada", (req, res) => {
+  const db = readDB();
+  const ordenadas = [...db.chamadas].reverse();
+
+  res.json({
+    chamada: ordenadas[0] || null,
+    historico: ordenadas.slice(1, 5)
+  });
 });
 
 // START
