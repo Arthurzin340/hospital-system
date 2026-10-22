@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Midia Indoor</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
 
         body {
             background-color: #5c4033;
@@ -65,10 +59,7 @@
             margin-bottom: 12px;
         }
 
-        .local-box {
-            flex: 1;
-        }
-
+        .local-box { flex: 1; }
         .local-number {
             color: #d12c2c;
             font-size: 9vw;
@@ -82,11 +73,7 @@
             align-items: flex-start;
         }
 
-        .history-box .box-title {
-            font-size: 1.8vw;
-            align-self: center;
-        }
-
+        .history-box .box-title { font-size: 1.8vw; align-self: center; }
         #history-list {
             list-style: none;
             width: 100%;
@@ -102,10 +89,7 @@
             padding-bottom: 5px;
         }
 
-        .patient-box {
-            flex: 3;
-        }
-
+        .patient-box { flex: 3; }
         .patient-name {
             color: #d12c2c;
             font-size: 6.5vw;
@@ -114,10 +98,7 @@
             word-break: break-word;
         }
 
-        .logo-box {
-            flex: 1;
-        }
-
+        .logo-box { flex: 1; }
         .logo-text {
             color: #8c3b7a;
             font-size: 3.5vw;
@@ -126,23 +107,13 @@
         }
 
         @keyframes flash {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.3;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
-        .flash {
-            animation: flash 0.5s ease 3;
-        }
+        .flash { animation: flash 0.5s ease 3; }
     </style>
 </head>
-
 <body>
     <div class="tv-container">
         <div class="left-panel">
@@ -212,5 +183,4 @@
         setInterval(atualizar, 2000);
     </script>
 </body>
-
 </html>
