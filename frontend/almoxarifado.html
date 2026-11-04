@@ -65,6 +65,45 @@
                         <button class="tab-btn" id="tabRepor" onclick="setTab('repor')">Repor Existente</button>
                 </div>
 
+                <div id="painelNovo">
+                    <div class="form-group">
+                        <label for="emNome">Nome do Medicamneto</label>
+                        <input type="text" id="emNome" class="form-control" placeholder="Ex: Paracetamol 750mg" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="emQtd">Quantidade
+                            <small>(unidades a adicionar)</small></label>
+                            <input type="number" id="emQtd" class="form-control" value="10"
+                            min="1">
+                    </div>
+                    <div class="form-group"><label for="emUnidade">Tipo de unidade</label>
+                    <select id="emUnidade" class="form-control">
+                        <option value="comprimidos">Comprimidos</option>
+                        <option value="cápsula">Cápsula</option>
+                        <option value="frascoa">Frascoa</option>
+                        <option value="ampolas">Ampolas</option>
+                        <option value="sachês">Sachês</option>
+                        <option value="unidadas">Unidadas</option>
+                    </select>
+                    </div>
+                    <div class="form-group"><label for="emCategoria">Categoria Farmacológica</label>
+                        <select id="emCategoria" class="form-group">
+                            <option value="Analgésico/Antipirético">
+                                Analgésico/
+                                Antipirético</option>
+                                <option value="Antibiótico">Antibiótico</option>
+                                <option value="Anti-inflamatório">Anti-inflamatório</option>
+                                <option value="Antialérgico">Antialérgico</option>
+                                <option value="Protetor Gástrico">Protetor Gástrico</option>
+                                <option value="Antiespasmódico">Antiespasmódico</option>
+                                <option value="Antiemético">Antiemético</option>
+                                <option value="Solução">Solução</option>
+                                <option value="Vitamina/Suplemento">Vitamina / Suplemento</option>
+                                <option value="Geral">Geral</option>
+                        </select>
+                    </div>
+                    <button class="btn-full btn-purple" onclick="darEntrada()">Registrar Entrada no Estoque</button>
+                </div>
             </div>
         </div>
     </div>
