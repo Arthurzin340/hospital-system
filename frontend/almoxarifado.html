@@ -1,112 +1,332 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Hospital Pro - Almoxarifado</title>
+    <style>
+        :root {
+            --fundo: #fbe4e2;
+            --superficie: #ffffff;
+            --tinta: #2b2433;
+            --tinta-suave: #6d6477;
+            --borda: #e6d6d8;
+            --primaria: #e0692a;
+            --primaria-escura: #c4561b;
+            --primaria-clara: #fde6d6;
+            --apoio: #1f8fa8;
+            --apoio-escura: #177187;
+            --destaque-fundo: #eef4fb;
+            --destaque-borda: #c9dcf0;
+            --raio: 16px;
+            --raio-campo: 10px;
+            --sombra: 0 12px 32px rgba(43, 36, 51, 0.08);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--tinta);
+            background: var(--fundo);
+        }
+
+        .navbar {
+            background: var(--superficie);
+            border-bottom: 2px solid var(--borda);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .nav-brand { display: flex; align-items: center; gap: 16px; }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            background: var(--primaria-clara);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .nav-brand h1 { margin: 0; font-size: 1.25rem; color: var(--tinta); }
+        .nav-brand span { font-size: 0.85rem; color: var(--tinta-suave); }
+
+        .user-pill {
+            background: var(--destaque-fundo);
+            border: 1px solid var(--destaque-borda);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--apoio-escura);
+        }
+
+        .container { width: 92%; max-width: 900px; margin: 32px auto; }
+
+        .alerta-estoque {
+            background: #fde8e8;
+            border: 1px solid #f8b4b4;
+            color: #9b1c1c;
+            padding: 14px 18px;
+            border-radius: var(--raio-campo);
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--superficie);
+            padding: 18px;
+            border-radius: var(--raio);
+            border: 1px solid var(--borda);
+            box-shadow: var(--sombra);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .stat-icon {
+            font-size: 1.4rem;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #f4eff5;
+            flex-shrink: 0;
+        }
+
+        .stat-value { font-size: 1.3rem; font-weight: 800; color: var(--tinta); line-height: 1; }
+        .stat-label { font-size: 0.78rem; color: var(--tinta-suave); margin-top: 4px; font-weight: 600; }
+
+        .card {
+            background: var(--superficie);
+            border-radius: var(--raio);
+            border-top: 6px solid var(--primaria);
+            box-shadow: var(--sombra);
+            padding: 32px;
+        }
+
+        .card-header h2 { margin: 0 0 20px 0; font-size: 1.4rem; color: var(--tinta); }
+
+        .entrada-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--borda);
+            padding-bottom: 12px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 18px;
+            font-weight: 600;
+            color: var(--tinta-suave);
+            cursor: pointer;
+            border-radius: var(--raio-campo);
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .tab-btn:hover { background: var(--destaque-fundo); color: var(--apoio); }
+        .tab-btn.active { background: var(--primaria-clara); color: var(--primaria-escura); }
+
+        .form-group { margin-bottom: 18px; text-align: left; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        label { display: block; font-size: 0.9rem; font-weight: 700; color: var(--tinta); margin-bottom: 6px; }
+        label small { font-weight: 400; color: var(--tinta-suave); }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            font: inherit;
+            color: var(--tinta);
+            background: #fff;
+            border: 1.5px solid var(--borda);
+            border-radius: var(--raio-campo);
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primaria);
+            box-shadow: 0 0 0 4px rgba(224, 105, 42, 0.18);
+        }
+
+        .btn-full {
+            width: 100%;
+            margin-top: 12px;
+            padding: 14px;
+            font: inherit;
+            font-weight: 700;
+            color: #fff;
+            border: 0;
+            border-radius: var(--raio-campo);
+            cursor: pointer;
+            background: var(--primaria);
+            transition: background 0.15s, transform 0.1s;
+        }
+
+        .btn-full:hover { background: var(--primaria-escura); }
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
-<header class="navbar">
-    <div class="nav-brand">
-            <div class="logo-icon"></div>
+
+    <header class="navbar">
+        <div class="nav-brand">
+            <div class="logo-icon">🏥</div>
             <div>
                 <h1>Hospital Pro - Almoxarifado</h1>
                 <span>Gestão de Entrada e Controle de Estoque</span>
             </div>
+        </div>
         <div class="nav-user">
-            <span class="user-pill" id="nomeUsuario"> Almoxarifado</span>
+            <span class="user-pill" id="nomeUsuario">Almoxarifado</span>
         </div>
-</header>
+    </header>
 
-<div class="container">
-    <div class="alerta-estoque" id="alertaEstoque" style="display: none;">
-        <strong>Atenção: </strong> <span id="alertaTexto"></span>
-    </div>
-    <div class="starts-bar">
-        <div class="stat-card">
-            <div class="stat-icon purple"></div>
-            <div class="stat-value" id="statIrens">-</div>
-            <div class="stat-label">Tipos Cadastrados</div>
+    <main class="container">
+        <div class="alerta-estoque" id="alertaEstoque" style="display: none;">
+            <strong>Atenção: </strong> <span id="alertaTexto"></span>
         </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-icon green">🟢</div>
-        <div class="stat-value" id="statOk">-</div>
-        <div class="stat-label">Estoque Normal</div>
-    </div>
-</div>
-    
-    <div class="stat-card" id="statBaixo">
-        <div class="stat-icon orange">🟠<div>
-          <div>
-              <div class="stat-value" id="statBaixo">-</div>
-              <div class="stat-label">Estoque Baico (MENOR QUE 10 UN)</div>
-          </div>
-    </div>
-        <div class="stat-card">
-            <div class="stat-icon red">🚫</div>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div>
+                    <div class="stat-value" id="statIrens">-</div>
+                    <div class="stat-label">Tipos Cadastrados</div>
+                </div>
             </div>
-            <div class="stat-value" id="statZerado">-</div>
-            <div class="stat-label">Zerado / Esgotado</div>
+            <div class="stat-card">
+                <div class="stat-icon">🟢</div>
+                <div>
+                    <div class="stat-value" id="statOk">-</div>
+                    <div class="stat-label">Estoque Normal</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🟠</div>
+                <div>
+                    <div class="stat-value" id="statBaixo">-</div>
+                    <div class="stat-label">Estoque Baixo (&lt; 10 un)</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🚫</div>
+                <div>
+                    <div class="stat-value" id="statZerado">-</div>
+                    <div class="stat-label">Zerado / Esgotado</div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-<div class="mais-grid">
-    <div>
         <div class="card">
             <div class="card-header">
-                <h2>Entrada DE Medicamento</h2>
-                </div>
-
-                <div class="card-body">
-                    <div class="entrada-tabs">
-                        <button class="tab-btnActive" id="tabNovo" onclick="setTab('novo')">➕ Novo Medicamento</button></div>
-                        <button class="tab-btn" id="tabRepor" onclick="setTab('repor')">Repor Existente</button>
+                <h2>Entrada de Medicamento</h2>
+            </div>
+            <div class="card-body">
+                <div class="entrada-tabs">
+                    <button class="tab-btn active" id="tabNovo" onclick="setTab('novo')">➕ Novo Medicamento</button>
+                    <button class="tab-btn" id="tabRepor" onclick="setTab('repor')">🔄 Repor Existente</button>
                 </div>
 
                 <div id="painelNovo">
                     <div class="form-group">
-                        <label for="emNome">Nome do Medicamneto</label>
-                        <input type="text" id="emNome" class="form-control" placeholder="Ex: Paracetamol 750mg" autocomplete="off">
+                        <label for="emNome">Nome do Medicamento</label>
+                        <input type="text" id="emNome" placeholder="Ex: Paracetamol 750mg" autocomplete="off">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="emQtd">Quantidade <small>(unidades)</small></label>
+                            <input type="number" id="emQtd" value="10" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="emUnidade">Tipo de Unidade</label>
+                            <select id="emUnidade">
+                                <option value="comprimidos">Comprimidos</option>
+                                <option value="cápsula">Cápsulas</option>
+                                <option value="frascos">Frascos</option>
+                                <option value="ampolas">Ampolas</option>
+                                <option value="sachês">Sachês</option>
+                                <option value="unidades">Unidades</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="emQtd">Quantidade
-                            <small>(unidades a adicionar)</small></label>
-                            <input type="number" id="emQtd" class="form-control" value="10"
-                            min="1">
-                    </div>
-                    <div class="form-group"><label for="emUnidade">Tipo de unidade</label>
-                    <select id="emUnidade" class="form-control">
-                        <option value="comprimidos">Comprimidos</option>
-                        <option value="cápsula">Cápsula</option>
-                        <option value="frascoa">Frascoa</option>
-                        <option value="ampolas">Ampolas</option>
-                        <option value="sachês">Sachês</option>
-                        <option value="unidadas">Unidadas</option>
-                    </select>
-                    </div>
-                    <div class="form-group"><label for="emCategoria">Categoria Farmacológica</label>
-                        <select id="emCategoria" class="form-group">
-                            <option value="Analgésico/Antipirético">
-                                Analgésico/
-                                Antipirético</option>
-                                <option value="Antibiótico">Antibiótico</option>
-                                <option value="Anti-inflamatório">Anti-inflamatório</option>
-                                <option value="Antialérgico">Antialérgico</option>
-                                <option value="Protetor Gástrico">Protetor Gástrico</option>
-                                <option value="Antiespasmódico">Antiespasmódico</option>
-                                <option value="Antiemético">Antiemético</option>
-                                <option value="Solução">Solução</option>
-                                <option value="Vitamina/Suplemento">Vitamina / Suplemento</option>
-                                <option value="Geral">Geral</option>
+                        <label for="emCategoria">Categoria Farmacológica</label>
+                        <select id="emCategoria">
+                            <option value="Analgésico/Antipirético">Analgésico / Antipirético</option>
+                            <option value="Antibiótico">Antibiótico</option>
+                            <option value="Anti-inflamatório">Anti-inflamatório</option>
+                            <option value="Antialérgico">Antialérgico</option>
+                            <option value="Protetor Gástrico">Protetor Gástrico</option>
+                            <option value="Antiespasmódico">Antiespasmódico</option>
+                            <option value="Antiemético">Antiemético</option>
+                            <option value="Solução">Solução</option>
+                            <option value="Vitamina/Suplemento">Vitamina / Suplemento</option>
+                            <option value="Geral">Geral</option>
                         </select>
                     </div>
-                    <button class="btn-full btn-purple" onclick="darEntrada()">Registrar Entrada no Estoque</button>
+                    <button class="btn-full" onclick="darEntrada()">Registrar Entrada no Estoque</button>
+                </div>
+
+                <div id="painelRepor" class="hidden">
+                    <div class="form-group">
+                        <label for="reporSelect">Selecionar Medicamento Cadastrado</label>
+                        <select id="reporSelect">
+                            <option value="">Selecione um item...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reporQtd">Quantidade a Adicionar</label>
+                        <input type="number" id="reporQtd" value="10" min="1">
+                    </div>
+                    <button class="btn-full" onclick="reporEstoque()">Confirmar Reposição</button>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </main>
+
+    <script>
+        function setTab(tipo) {
+            const btnNovo = document.getElementById('tabNovo');
+            const btnRepor = document.getElementById('tabRepor');
+            const painelNovo = document.getElementById('painelNovo');
+            const painelRepor = document.getElementById('painelRepor');
+
+            if (tipo === 'novo') {
+                btnNovo.classList.add('active');
+                btnRepor.classList.remove('active');
+                painelNovo.classList.remove('hidden');
+                painelRepor.classList.add('hidden');
+            } else {
+                btnRepor.classList.add('active');
+                btnNovo.classList.remove('active');
+                painelRepor.classList.remove('hidden');
+                painelNovo.classList.add('hidden');
+            }
+        }
+    </script>
 </body>
 </html>
