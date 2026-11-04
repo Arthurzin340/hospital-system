@@ -11,9 +11,54 @@
       "tipo": "medico"
     },
     {
-      "usuario": "atendimento",
-      "senha": "123",
+      "usuario": "admin",
+      "senha": "1234",
+      "tipo": "admin"
+    },
+    {
+      "id": 1792596638365,
+      "usuario": "Fallen",
+      "senha": "1234",
       "tipo": "atendimento"
+    },
+    {
+      "id": 1792596794949,
+      "usuario": "as",
+      "senha": "12",
+      "tipo": "triagem"
+    },
+    {
+      "id": 1793804370576,
+      "usuario": "Aoba",
+      "senha": "1234",
+      "tipo": "almoxarifado"
+    },
+    {
+      "id": 1793805116361,
+      "usuario": "Questurestel",
+      "senha": "1234",
+      "tipo": "medico"
+    }
+  ],
+  "pacientes": [
+    {
+      "id": 1793806569474,
+      "nome": "São Jorge Suílitretel de Sinoloscro Alióstumachitai",
+      "cpf": "103928745609",
+      "tipo": "Convenio",
+      "status": "triagem",
+      "createdAt": "2026-11-04T15:36:09.474Z"
+    }
+  ],
+  "triagens": [],
+  "consultas": [],
+  "chamadas": [
+    {
+      "id": 1793806569474,
+      "paciente": "São Jorge Suílitretel de Sinoloscro Alióstumachitai",
+      "localTipo": "GUICHÊ",
+      "localNumero": "1",
+      "createdAt": "2026-11-04T15:36:09.474Z"
     }
   ]
 }
