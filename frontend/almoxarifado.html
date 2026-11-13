@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +24,9 @@
             --sombra: 0 12px 32px rgba(43, 36, 51, 0.08);
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
@@ -45,7 +48,11 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
-        .nav-brand { display: flex; align-items: center; gap: 16px; }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
 
         .logo-icon {
             font-size: 1.8rem;
@@ -58,8 +65,16 @@
             border-radius: 12px;
         }
 
-        .nav-brand h1 { margin: 0; font-size: 1.25rem; color: var(--tinta); }
-        .nav-brand span { font-size: 0.85rem; color: var(--tinta-suave); }
+        .nav-brand h1 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: var(--tinta);
+        }
+
+        .nav-brand span {
+            font-size: 0.85rem;
+            color: var(--tinta-suave);
+        }
 
         .user-pill {
             background: var(--destaque-fundo);
@@ -71,7 +86,11 @@
             color: var(--apoio-escura);
         }
 
-        .container { width: 92%; max-width: 900px; margin: 32px auto; }
+        .container {
+            width: 92%;
+            max-width: 900px;
+            margin: 32px auto;
+        }
 
         .alerta-estoque {
             background: #fde8e8;
@@ -113,8 +132,19 @@
             flex-shrink: 0;
         }
 
-        .stat-value { font-size: 1.3rem; font-weight: 800; color: var(--tinta); line-height: 1; }
-        .stat-label { font-size: 0.78rem; color: var(--tinta-suave); margin-top: 4px; font-weight: 600; }
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--tinta);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: var(--tinta-suave);
+            margin-top: 4px;
+            font-weight: 600;
+        }
 
         .card {
             background: var(--superficie);
@@ -124,7 +154,11 @@
             padding: 32px;
         }
 
-        .card-header h2 { margin: 0 0 20px 0; font-size: 1.4rem; color: var(--tinta); }
+        .card-header h2 {
+            margin: 0 0 20px 0;
+            font-size: 1.4rem;
+            color: var(--tinta);
+        }
 
         .entrada-tabs {
             display: flex;
@@ -146,16 +180,43 @@
             font-size: 0.9rem;
         }
 
-        .tab-btn:hover { background: var(--destaque-fundo); color: var(--apoio); }
-        .tab-btn.active { background: var(--primaria-clara); color: var(--primaria-escura); }
+        .tab-btn:hover {
+            background: var(--destaque-fundo);
+            color: var(--apoio);
+        }
 
-        .form-group { margin-bottom: 18px; text-align: left; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .tab-btn.active {
+            background: var(--primaria-clara);
+            color: var(--primaria-escura);
+        }
 
-        label { display: block; font-size: 0.9rem; font-weight: 700; color: var(--tinta); margin-bottom: 6px; }
-        label small { font-weight: 400; color: var(--tinta-suave); }
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
 
-        input, select, textarea {
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--tinta);
+            margin-bottom: 6px;
+        }
+
+        label small {
+            font-weight: 400;
+            color: var(--tinta-suave);
+        }
+
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 12px 14px;
             font: inherit;
@@ -166,7 +227,9 @@
             transition: border-color 0.15s, box-shadow 0.15s;
         }
 
-        input:focus, select:focus, textarea:focus {
+        input:focus,
+        select:focus,
+        textarea:focus {
             outline: none;
             border-color: var(--primaria);
             box-shadow: 0 0 0 4px rgba(224, 105, 42, 0.18);
@@ -186,10 +249,16 @@
             transition: background 0.15s, transform 0.1s;
         }
 
-        .btn-full:hover { background: var(--primaria-escura); }
-        .hidden { display: none !important; }
+        .btn-full:hover {
+            background: var(--primaria-escura);
+        }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
+
 <body>
 
     <header class="navbar">
@@ -205,7 +274,7 @@
         </div>
     </header>
 
-    <main class="container">
+    <div class="container">
         <div class="alerta-estoque" id="alertaEstoque" style="display: none;">
             <strong>Atenção: </strong> <span id="alertaTexto"></span>
         </div>
@@ -332,33 +401,83 @@
             </div>
             <div class="card-body">
                 <div class="search-bar">
-                    <input type="text" class="search-input" id="buscaMed" placeholder="🔍 Buscar Medicamento..." onclick="filtrarTabela()">
+                    <input type="text" class="search-input" id="buscaMed" placeholder="🔍 Buscar Medicamento..."
+                        onclick="filtrarTabela()">
                 </div>
-                
+                <div class="filter-chips" id="filterChips">
+                    <span class="chip active" onclick="setFiltro('todos', this)">Todos</span>
+                </div>
+                <div class="overflow-x:auto">
+                    <table class="estoque-table">
+                        <thead>
+                            <tr>
+                                <th>Medicamento</th>
+                                <th>Categoria</th>
+                                <th>Disponível</th>
+                                <th>Unidade</th>
+                                <th style="text-align:right;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaEstoque">
+                            <tr>
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <div class="empty-icon"></div>
+                                        <p>Carregando...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
-    </main>
 
+    </div>
+    </div>
+
+    <div class="modal-overlay" id="modalEditar">
+        <div class="modal-box">
+            <div class="moadal-title">✏️ Editar Estoque</div>
+            <div class="form-group"><label id="modalMedNome"
+                    style="font-size:15px; color: var(--dark); margin-bottom: 12px; display: block;"></label>
+                <label>Quantidade a adicionar (negativo para remover):</label>
+                <input type="number" id="modalQtd" class="form-control" value="10">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-sm btn-secondary" style="padding:11px;" onclick="fecharModal()">Cancelar</button>
+                <button class="btn-sm btn-success" style="padding: 11px; flex:2" onclick="confirmarEdicao()">✅
+                    Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
     <script>
-        function setTab(tipo) {
-            const btnNovo = document.getElementById('tabNovo');
-            const btnRepor = document.getElementById('tabRepor');
-            const painelNovo = document.getElementById('painelNovo');
-            const painelRepor = document.getElementById('painelRepor');
+        let estoqueGlobal = [];
+        let fitroAtivo = "todos";
+        let editandoId = null;
+        let historicoEntradas = [];
 
-            if (tipo === 'novo') {
-                btnNovo.classList.add('active');
-                btnRepor.classList.remove('active');
-                painelNovo.classList.remove('hidden');
-                painelRepor.classList.add('hidden');
-            } else {
-                btnRepor.classList.add('active');
-                btnNovo.classList.remove('active');
-                painelRepor.classList.remove('hidden');
-                painelNovo.classList.add('hidden');
-            }
+        const usuario = JSON.parse(localStorage.getItem("hospital_user") || "{}");
+        if (usuario.nome) {
+            document.getElementById("nomeUsuario").textContent = "📦 " + usuario.nome;
+        }
+        function showToast(msg, tipo = "success") {
+            const t = document.getElementById("toast");
+            t.textContent = msg;
+            t.className = `toast toast-${tipo} show`;
+            setTimeout(() => { t.className = "toast"; }, 4000);
+        }
+        function setTab(tab) {
+            document.getElementById("painelNovo").style.display = tab === "novo" ? "block" : "none";
+            document.getElementById("painelRepor").style.display = tab === "repor" ? "block" : "none";
+            document.getElementById("tabNovo").className = "tab-btn" + (tab === "novo" ? "active" : "");
+            document.getElementById("tabRepor").className = "tab-btn" + (tab === "novo" ? "active" : "");
         }
     </script>
 </body>
+
 </html>
