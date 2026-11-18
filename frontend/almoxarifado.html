@@ -475,8 +475,29 @@
             document.getElementById("painelNovo").style.display = tab === "novo" ? "block" : "none";
             document.getElementById("painelRepor").style.display = tab === "repor" ? "block" : "none";
             document.getElementById("tabNovo").className = "tab-btn" + (tab === "novo" ? "active" : "");
-            document.getElementById("tabRepor").className = "tab-btn" + (tab === "novo" ? "active" : "");
+            document.getElementById("tabRepor").className = "tab-btn" + (tab === "repor" ? "active" : "");
+            if(tab === "repor") preecherSelectRepor();
         }
+
+        function carregarEstoque() {
+            fetch("/estoque")
+            .then(r => r.json())
+            .then(data => {
+                estoqueGlobal = data;
+                atualizarStats(data);
+                renderizarFiltros(data);
+                renderizarTabela(data);
+                verificarAlertas(data);
+            })
+            .catch(() => showToast("❌ Erro aocarregar estoque", "error"));
+        }
+        function atualizarStats(data){
+            document.getElementById('statsItns').textContent=data.length;
+            document.getElementById('statOk').textContent=data.filter(m=>m.quantidade > 10).length;
+            document.getElementById('statBaixo').textContent=data.filter(m=>quantidade > 0 && m.quantidade <= 10).length;
+            document.getElementById('statZerado').textContent=data.filter(m=>m.quantidade ===0).length;
+        }
+        
     </script>
 </body>
 
