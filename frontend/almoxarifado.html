@@ -497,7 +497,19 @@
             document.getElementById('statBaixo').textContent=data.filter(m=>quantidade > 0 && m.quantidade <= 10).length;
             document.getElementById('statZerado').textContent=data.filter(m=>m.quantidade ===0).length;
         }
-        
+                function setFiltro(cat, el) {
+            filtroAtivo=cat;
+            document.querySelectorAll(".chip").forEach(c=> c.classList.remove("active"));
+            el.classList.add("active");
+            filtrarTabela();
+        }
+
+        function filtrarTabela(){
+            const busca=document.getElementById("buscaMed").value.toLowerCase();
+            const matchCat=filtroAtivo==="todos" || m.categoria===filtroAtivo;
+            const matchBusc=m.nome.toLowerCase().includes(busca) || (m.categoria || "")
+            return matchCat && matchbusc;
+        });
     </script>
 </body>
 
