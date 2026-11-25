@@ -529,9 +529,9 @@
         function filtrarTabela(){
             const busca=document.getElementById("buscaMed").value.toLowerCase();
             const matchCat=filtroAtivo==="todos" || m.categoria===filtroAtivo;
-            const matchBusc=m.nome.toLowerCase().includes(busca) || (m.categoria || "")
+            const matchBusc=m.nome.toLowerCase().includes(busca) || (m.categoria || "");
             return matchCat && matchBusc;
-        });
+        };
         renderizarTabela();
     }
     function getStockClass(q){
@@ -567,10 +567,87 @@
             <td>
             <div class="action-row">
                 <button class="btn-sm btn-success" onclick=" abrirModaEditar(${m.id}, '${m.nome.replace(/'/g,"\\'")}', ${m.quantidade})">
-                                
-        </tr>
-        `)
+                </button>
+            </div>
+        </td>
+    </tr>
+        `).join("");
     }
+
+    function darEntrada() {
+        const nome=document.getElementById("emNome").value.trim();
+        const qtb=parseInt(document.getElementById("emQtb").value);
+        const unidade=document.getElementById("emUnidade").value;
+        const categoria=document.getElementById("emCategoria").value;
+        if (!nome) {
+            showToast("⚠️ Digite o nome do medicamento.", "warning");
+            return;
+        }
+        if(!qtb || qtb <=0){
+            showToast("⚠️ Quantidade inválida", "warning");
+            return;
+        }
+        fetch("/esatoque", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nome,
+                quantidade: qtb,
+                unidade,
+                categoria
+            })
+        })
+        .then(r=> r.json())
+        .then(data => {
+            if(data.erro) {
+                showToast(" ❌ "+data.erro, "error");
+                return;
+            }
+            showToast("✅ "+data.mensagem, "success");
+            document.getElementById("emNome").value="";
+            document.getElementById("emQtb").value= "10";
+            historicoEntradas.unshift({
+                tipo: "entrada",
+                nome: data.medicamento.nome,
+                qtb,
+                unidade: data.medicamento.unidade,
+                hora: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit"}), responsavel: usuario.nome || "Almoxarifado"
+            });
+            renderizarHistorico();
+            carregarEstoque();
+        })
+        .catch(() => showToast ("❌ Erro ao registrar entrada.", "error"));
+    }
+    function preencherSelectRepor() {
+        const sel=document.getElementById("selReporMed");
+        sel.innerHTML=`<option value="">-- Selecione-- </option>`;
+        estoqueGlobal.forEach(m=> {
+            const opt=document.createElement("optoin");
+            opt.value=m.id;
+            opt.textContent=`${m.nome} (atual: ${m.quantidade} ${m.unidade})`; 
+        });
+    }
+    function reporEstoque(){
+        const id=document.getElementById("selReporMed").value;
+        const qtb=parseInt(document.getElementById("reporQtb").value);
+        if(!id) {
+             showToast("⚠️ Selecione um medicamento.", "warning");
+             return;
+        }
+        if(!qtb || qtb <=0) {
+            showToast("⚠️ Quantidade inválida.", "warning");
+            return;
+        }
+        const med=estoqueGlobal.find(m=> m.id == id);
+        fetch(`/estoque/${id}`, {
+            method:"PATCH",
+            headers: { "Content-Type":"application/json"},
+            body: JSON.stringify({ quantidade: qtb })
+        })
+    }
+
+
+</script>
 </body>
 
 </html>
