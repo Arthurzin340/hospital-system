@@ -644,9 +644,84 @@
             headers: { "Content-Type":"application/json"},
             body: JSON.stringify({ quantidade: qtb })
         })
+        .then(r=>r.json())
+        .then(data=> {
+        showToast(`✅ + ${qtb} ${data.medicamento.unidade} adicionados! Novo total: ${data.medicamento.quantidade}`, "success");
+        document.getElementById("reporQtb").value="10";
+        document.getElementById("reporObd").value="";
+        historicoEntradas.unshift({
+            tipo: "reposicao",
+            nome: data.medicamento.nom,
+            qtb,
+            unidade: data.medicamento.unidade,
+            hora: new Date().toLocaleDateString("pt-BR", { hour: "2-digit", minute:"2-digit"}),
+            responsavel:usuario.nome || "Almoxarifado"
+        });
+        renderizarHistorico();
+        carregarEstoque();
+        })
+        .catch(()=> showToast("❌ Erro ao repor estoque.", "error"));
     }
-
-
+    function abrirModalEditar(id, nome, qtbAtual) {
+        editandoId= id;
+        document.getElementById("modalMedNome").textContent=`💊 ${nome} - Estoque atual: ${qtbAtual}`;
+        document.getElementById("modalQtb").value="10";
+        document.getElementById("modalEditar").classList.add("open");
+    }
+    function fecharModal(){
+        document.getElementById("modalEditar").classList.remove("open");
+        editandoId=null;
+    }
+    function confirmarEdicao(){
+        const qtb=parseInt(document.getElementById("modalQtb").value);
+        if(isNaN(qtb)){
+            showToast("⚠️ Digite um número válido.", "warning");
+            return;
+        }
+        fetch(`/estoque/${editandoId}`, {
+            method:"PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ quantidade: qtb })
+        })
+        .then(r=>r.json())
+        .then(data=> {
+            const acao=qtb > 0?`+${qtb}`:`${qtb}`;
+            showToast(`✅ ${acao} ${data.medicamento.unidade}. Novo total: ${data.medicamento.quantidade}`, "success");
+            fecharModal();
+            carregarEstoque();
+        })
+        .catch(()=> showToast("❌ Erro ao atualizar.", "error"));
+    }
+    function removerMedicamento(id, nome){
+        if(!confirm(`Tem certeza que deseja REMOVER "${nome}" do estoque?\nEsta ação não pode se desfeita.`)) return;
+        fetch(`/estoque/${id}`, { method: "DELETE" })
+        .then(r=>r.json())
+        .then(()=> {
+            showToast(`🗑️ "${nome}" removido do estoque`, "success");
+            carregarEstoque();
+        })
+        .catch(()=> showToast("❌ Erro ao remover.", "error"));
+    }
+    function carregarHistoricoEntradas(){
+        renderizarHistorico();
+    }
+    function renderizarHistorico(){
+        const div=document.getElementById("historicoEntradas");
+        if(historicoEntradas.length===0){
+            div=innerHTML=`<div class="empty-state"><div class="empty-icon">📋</div><p>Nenhuma entrada registrada nesta sessão.</p></div`;
+            return;
+        }
+        div.innerHTML=historicoEntradas.slice(0, 15).map(h=>`
+        <div class="hist-item">
+            <div class="hist-icon ${h.tipo==='reposicao'? 'entrada': 'entrada'}">
+                ${h.tipo==='reposicao'?'📦':'📤'}
+                </div>
+                <div class="hist-info">
+                    <div class="hist-med">${h.nome}</div>
+                    <div class="hist-sub">🕐${h.hora}
+            `)
+    }
+    
 </script>
 </body>
 
